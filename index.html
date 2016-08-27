@@ -1,0 +1,58 @@
+<head>
+    <title> 木原名字產生器 </title> 
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.1.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+<div class="row">
+
+    <div class="col-md-offset-2 col-md-8 text-center">
+        <img src="title.png" style="text-align:center;">
+        <hr>
+        <div class="form-inline" id="inputForm"> 
+            <input class="form-control input-lg" id="inputName" placeholder="請在此名字">
+            <a href="#" class="btn btn-primary btn-lg" id="btnGen">產生</a>
+        </div>
+        <script>
+            String.prototype.hashCode = function(){
+                var hash = 0;
+                if (this.length == 0) return hash;
+                for (i = 0; i < this.length; i++) {
+                    char = this.charCodeAt(i);
+                    hash = ((hash<<5)-hash)+char;
+                    hash = hash & hash; // Convert to 32bit integer
+                }
+                return hash;
+            }
+
+            $(function(){
+                name_list = [];
+                $.post("out.txt", {}, function(res){
+                    name_list = res.split("\n");
+                });
+
+                $("#btnGen").on("click", function(){
+                    if(name_list.length == 0)
+                        return;
+                    strName = $("#inputName").val();
+                    if(strName == "")
+                        return;
+                    genValue = strName.hashCode() % name_list.length;
+                    $("#outputName").html("木原" + name_list[genValue]);
+                });
+
+            });
+        </script>
+        <div id="outputForm">
+            <h1 id="outputName"></h1>
+        </div>
+    </div>
+
+</div>
+
+</body>
