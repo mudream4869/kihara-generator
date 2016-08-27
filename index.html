@@ -32,7 +32,7 @@
 
             $(function(){
                 name_list = [];
-                $.post("out.txt", {}, function(res){
+                $.get("out.txt", {}, function(res){
                     name_list = res.split("\n");
                 });
 
